@@ -21,7 +21,7 @@ Claude will fetch the call, print a clean timestamped transcript, and give you a
 ## Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/gong-transcript.git
+git clone https://github.com/ujanjan/gong-transcript.git
 cd gong-transcript
 ./install.sh
 ```
