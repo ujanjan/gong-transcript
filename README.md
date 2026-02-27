@@ -26,24 +26,20 @@ cd gong-transcript
 ./install.sh
 ```
 
-Then fill in your credentials:
+The script will prompt you for your Gong API credentials interactively:
 
-```bash
-# Open the file
-open ~/.config/gong/credentials.json
+```
+Enter your Gong API credentials.
+Find them in Gong → Settings → Ecosystem → API
+
+  Base URL (e.g. https://us-12345.api.gong.io): https://us-12345.api.gong.io
+  Access Key: abc123...
+  Secret Key: ********
 ```
 
-```json
-{
-  "base_url": "https://us-XXXXX.api.gong.io",
-  "access_key": "YOUR_ACCESS_KEY",
-  "secret_key": "YOUR_SECRET_KEY"
-}
-```
+Credentials are saved to `~/.config/gong/credentials.json`. Running `./install.sh` again will ask before overwriting them.
 
-Find your credentials in Gong under **Settings → Ecosystem → API**.
-
-> **Note:** The `base_url` is tenant-specific. Using `api.gong.io` directly will return 404s.
+> **Note:** The `base_url` is tenant-specific — find it in Gong under **Settings → Ecosystem → API**. Using `api.gong.io` directly will return 404s.
 
 ---
 
