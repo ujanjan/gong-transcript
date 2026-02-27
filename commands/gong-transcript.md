@@ -15,7 +15,9 @@ Fetch and display the raw transcript for a Gong call.
 2. Run the following Python snippet via Bash to fetch the transcript:
 
 ```python
-import requests, base64, json, sys, os
+import base64, json, sys, os
+from urllib.request import urlopen, Request
+from urllib.error import HTTPError
 
 creds_path = os.path.expanduser('~/.config/gong/credentials.json')
 
@@ -28,21 +30,23 @@ except FileNotFoundError:
     sys.exit(1)
 
 encoded = base64.b64encode(f"{creds['access_key']}:{creds['secret_key']}".encode()).decode()
+body = json.dumps({"filter": {"callIds": ["$ARGUMENTS"]}}).encode()
 
-resp = requests.post(
+req = Request(
     f"{creds['base_url']}/v2/calls/transcript",
+    data=body,
     headers={
         "Authorization": f"Basic {encoded}",
         "Content-Type": "application/json"
-    },
-    json={"filter": {"callIds": ["$ARGUMENTS"]}}
+    }
 )
 
-if not resp.ok:
-    print(f"ERROR {resp.status_code}: {resp.text}")
+try:
+    with urlopen(req) as resp:
+        print(json.dumps(json.loads(resp.read()), indent=2))
+except HTTPError as e:
+    print(f"ERROR {e.code}: {e.read().decode()}")
     sys.exit(1)
-
-print(json.dumps(resp.json(), indent=2))
 ```
 
 3. Format the response as a clean, readable transcript:

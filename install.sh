@@ -26,13 +26,6 @@ else
   echo "  - Credentials file already exists at $CREDS_FILE, skipping."
 fi
 
-# Check for requests library
-if ! python3 -c "import requests" 2>/dev/null; then
-  echo ""
-  echo "  Note: 'requests' Python package not found."
-  echo "  Install it with: pip install requests"
-fi
-
 echo ""
 echo "Done. Use it with:"
 echo "  /gong-transcript <meeting_id>"

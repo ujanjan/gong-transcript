@@ -14,7 +14,7 @@ Claude will fetch the call, print a clean timestamped transcript, and give you a
 
 - [Claude Code](https://claude.ai/code) installed
 - A Gong account with API access
-- Python 3 with `requests` (`pip install requests`)
+- Python 3 (no extra packages needed — uses stdlib only)
 
 ---
 
