@@ -1,20 +1,23 @@
 # gong-transcript
 
-A [Claude Code](https://claude.ai/code) slash command that fetches and formats raw transcripts from the Gong API.
+A [Claude Code](https://claude.ai/code) slash command that fetches a Gong call transcript and saves it as a markdown file.
 
 ```
 /gong-transcript 7782342007009289000
 ```
 
-Claude will fetch the call, print a clean timestamped transcript, and give you a summary of speakers, topics, and action items.
+The meeting ID is the numeric ID from the Gong call URL:
+`https://app.gong.io/call?id=7782342007009289000`
+
+The transcript is saved to `~/Downloads/gong-<call_id>.md`.
 
 ---
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/code) installed
+- [Claude Code](https://claude.ai/code)
 - A Gong account with API access
-- Python 3 (no extra packages needed — uses stdlib only)
+- Python 3 (stdlib only, no pip install needed)
 
 ---
 
@@ -26,57 +29,6 @@ cd gong-transcript
 ./install.sh
 ```
 
-The script will prompt you for your Gong API credentials interactively:
+The script will prompt for your Gong API credentials and save them to `~/.config/gong/credentials.json`.
 
-```
-Enter your Gong API credentials.
-Find them in Gong → Settings → Ecosystem → API
-
-  Base URL (e.g. https://us-12345.api.gong.io): https://us-12345.api.gong.io
-  Access Key: abc123...
-  Secret Key: ********
-```
-
-Credentials are saved to `~/.config/gong/credentials.json`. Running `./install.sh` again will ask before overwriting them.
-
-> **Note:** The `base_url` is tenant-specific — find it in Gong under **Settings → Ecosystem → API**. Using `api.gong.io` directly will return 404s.
-
----
-
-## Usage
-
-In any Claude Code session:
-
-```
-/gong-transcript <meeting_id>
-```
-
-The meeting ID is the numeric ID from the Gong call URL, e.g.:
-`https://app.gong.io/call?id=7782342007009289000`
-
-### Output
-
-```
-[00:04] John Smith: Thanks for joining today.
-[00:09] Sarah Lee: Happy to be here.
-[01:23] John Smith: Let's walk through the pricing.
-...
-
-Summary:
-- John Smith: 62% of sentences
-- Sarah Lee: 38% of sentences
-Key topics: pricing, onboarding timeline, next steps
-Action items: John to send proposal by Friday
-```
-
----
-
-## Credentials security
-
-Your credentials are stored at `~/.config/gong/credentials.json` on your local machine only. The `.gitignore` in this repo excludes `credentials.json` so you won't accidentally commit them.
-
----
-
-## How it works
-
-The command is a Markdown file placed in `~/.claude/commands/`. When you run `/gong-transcript`, Claude Code reads the file, executes the embedded Python snippet via Bash to call the [Gong Transcript API](https://app.gong.io/settings/api-documentation#post-/v2/calls/transcript), then formats and summarizes the result.
+> Find your credentials in Gong under **Settings → Ecosystem → API**. The base URL is tenant-specific (e.g. `https://us-12345.api.gong.io`) — using `api.gong.io` directly won't work.
